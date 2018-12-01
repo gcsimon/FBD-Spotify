@@ -20,17 +20,17 @@ drop table if exists Midia;
 drop table if exists Categoria;
 
 
-
 CREATE TABLE Plano (
+	codPlano numeric not null,
     titulopla varchar(255) NOT NULL,
     valor numeric NOT NULL,
     compartilhavel boolean NOT NULL,
-    unique(titulopla),
+    unique(codPlano),
     primary key(titulopla)
 );
-insert into Plano values ('Familiar', 25,1);
-insert into Plano values ('Free',0,0);
-insert into Plano values ('Premium', 15,0);
+insert into Plano values (1,'Familiar', 25,1);
+insert into Plano values (2,'Free',0,0);
+insert into Plano values (3,'Premium', 15,0);
 
 CREATE TABLE Usuario (
 codUsuario numeric NOT NULL,
@@ -98,7 +98,6 @@ insert into Playlist values (8,'Pasteis de Belem', 'Playlist musical', 'Public',
 insert into Playlist values (9,'Musicas para ouvir no carro', 'musicas para dirigir', 'Public', '09/11/2016' , 0);
 insert into Playlist values (10,'Old Songs', 'Só as velhinhas', 'Public', '09/10/2016' , 0);
 
-
 CREATE TABLE UsuarioPlaylist (
 codUsuario numeric NOT NULL,
 codPlaylist numeric NOT NULL,
@@ -133,7 +132,10 @@ insert into Lugar values (3,'Maracana', 'Rio de Janeiro', 'RJ', 'Brasil');
 insert into Lugar values (4,'Morumbi', 'Sao Paulo', 'SP', 'Brasil');
 insert into Lugar values (5,'Magic Square Garden', 'New York', 'NY', 'USA');
 insert into Lugar values (6,'Pepsi on stage', 'Porto Alegre', 'RS', 'Brasil');
-insert into Lugar values (7,'Pepsi on stage', 'Porto Alegre', 'RS', 'Brasil');
+insert into Lugar values (7,'Anfiteatro por do sol', 'Porto Alegre', 'RS', 'Brasil');
+insert into Lugar values (8,'Estacionamento da FIERGS', 'Porto Alegre', 'RS', 'Brasil');
+insert into Lugar values (9,'Zequinha', 'Porto Alegre', 'RS', 'Brasil');
+insert into Lugar values (10,'Arena Corinthians', 'Sao Paulo', 'SP', 'Brasil');
 
 CREATE TABLE Apresentacao (
 codApresentacao numeric NOT NULL,
@@ -151,9 +153,13 @@ insert into Apresentacao values (1,'World Tour', 'www.ingresso.com', 120,'25/12/
 insert into Apresentacao values (2,'Rock in Rio', 'www.ingresso.com', 110,'14/02/1998', 2);
 insert into Apresentacao values (3,'Planeta Atlantida', 'www.ingresso.com', 400,'23/06/2015', 3);
 insert into Apresentacao values (4,'Hail to the king tour', 'www.ingresso.com', 120,'01/01/2019', 4);
-insert into Apresentacao values (5,'American Idiot', 'www.ingresso.com', 120, '29/02/2006',5);
-insert into Apresentacao values (6,'Universo Alegria', 'www.ingresso.com', 120, '29/02/2006',1);
-insert into Apresentacao values (7,'Show das poderosas', 'www.ingresso.com', 130, '21/02/2006',3);
+insert into Apresentacao values (5,'American Idiot', 'www.ingresso.com', 120, '29/02/2008',5);
+insert into Apresentacao values (6,'Universo Alegria', 'www.ingresso.com', 120, '29/05/2011',6);
+insert into Apresentacao values (7,'Show das poderosas', 'www.ingresso.com', 130, '25/02/2016',7);
+insert into Apresentacao values (8,'Show de roque', 'www.ingresso.com', 95, '22/02/2006',8);
+insert into Apresentacao values (9,'One more Light', 'www.ingresso.com', 121, '21/04/2006',9);
+insert into Apresentacao values (10,'The hunting party Tour', 'www.ingresso.com', 114, '21/02/2006',10);
+insert into Apresentacao values (11,'Revolution Radio', 'www.ingresso.com', 114, '21/09/2016',10);
 
 CREATE TABLE Artista (
 codArtista numeric NOT NULL,
@@ -162,13 +168,16 @@ descricaoArtista varchar(255),
 ouvintesMensais numeric NOT NULL,
 primary key (codArtista)
 );
-
 insert into Artista values (1,'Avenged Sevenfold', 'Rockzera', 45000);
 insert into Artista values (2,'Green Day', 'Rockzera', 15000);
 insert into Artista values (3,'Anitta', 'Popzera e Funkera', 12000);
 insert into Artista values (4,'Armandinho', 'Reguera', 45000);
 insert into Artista values (5,'Guns and Roses', 'Rockzera', 19000);
 insert into Artista values (6,'Carlinhos Brown', 'MPBzera', 2000);
+insert into Artista values (7,'Linkin Park', 'Rock alternativo', 25000);
+insert into Artista values (8,'Alok', 'Musicas eletronicas', 1300);
+insert into Artista values (9,'David Guetta', 'Maior DJ mundial', 2000);
+insert into Artista values (10,'Gorillaz', 'Rock alternativo', 1300);
 
 CREATE TABLE ArtistaApresentacao (
 codArtista numeric NOT NULL,
@@ -178,13 +187,19 @@ FOREIGN KEY (codArtista) references Artista(codArtista),
 FOREIGN KEY (codApresentacao) references Apresentacao(codApresentacao),
 UNIQUE(codArtista,codApresentacao)
 );
-
 insert into ArtistaApresentacao values(1,4);
+insert into ArtistaApresentacao values(1,2);
 insert into ArtistaApresentacao values(2,5);
+insert into ArtistaApresentacao values(2,10);
 insert into ArtistaApresentacao values(3,7); 
 insert into ArtistaApresentacao values(4,3);
 insert into ArtistaApresentacao values(5,2); 
 insert into ArtistaApresentacao values(6,2);
+insert into ArtistaApresentacao values(7,9);
+insert into ArtistaApresentacao values(7,10);
+insert into ArtistaApresentacao values(8,3);
+insert into ArtistaApresentacao values(9,2);
+insert into ArtistaApresentacao values(10,2);
 
 CREATE TABLE Oferta (
 codOferta numeric not null,
@@ -198,7 +213,15 @@ foreign key (codArtista) references Artista(codArtista)
 
 insert into Oferta values(1,'American Idiot Album','Grande desconto', 'www.freemarket.com', 2);
 insert into Oferta values(2,'Hail to the King Album','baita oferta', 'www.freemarket.com', 1);
-insert into Oferta values(3,'Melhores do Carlinhos','De gratis', 'www.freemarket.com', 6);
+insert into Oferta values(3,'Melhores do Carlinhos','De gratis', 'www.dowloadcd.com', 6);
+insert into Oferta values(4,'Discografia do LP','Precinho camarada!', 'www.freemarket.com', 7);
+insert into Oferta values(5,'Sertanejao em promocao','So as sofrencias!', 'www.freemarket.com', 6);
+insert into Oferta values(6,'Melhores do Gorillaz','Só musicas boas!!!', 'www.dowloadcd.com', 10);
+insert into Oferta values(7,'TOP eletronicas','Só as eletronicas', 'www.dowloadcd.com', 10);
+insert into Oferta values(8,'Discografia do guetta','Só as eletronicas boas', 'www.dowloadcd.com', 9);
+insert into Oferta values(9,'so roquezao','so musicas de qualidade', 'www.dowloadcd.com', 1);
+insert into Oferta values(10,'todas da poderosa','so musicas de qualidade', 'www.dowloadcd.com', 3);
+insert into Oferta values(11,'top 2018','so musicas de 2018', 'www.dowloadcd.com', 8);
 
 CREATE TABLE Categoria (
 codCategoria numeric not null,
@@ -212,7 +235,10 @@ insert into Categoria Values (3,'MPB');
 insert into Categoria Values (4,'Reggae');
 insert into Categoria Values (5,'Pop');
 insert into Categoria Values (6,'Comedia');
-
+insert into Categoria Values (7,'Infantil');
+insert into Categoria Values (8,'Noticias');
+insert into Categoria Values (9,'Games');
+insert into Categoria Values (10,'Economia');
 
 Create table Album (
 codAlbum numeric not null,
@@ -227,6 +253,13 @@ foreign key(codArtista) references Artista(codArtista)
 insert into Album values(1,'American Idiot','20/09/2004',57,2);
 insert into Album Values(2,'CD do brown','28/11/2018',25,6);
 insert into Album values(3,'Nightmare','11/09/2012',59,1);
+insert into Album values(4,'One more light','11/09/2017',68,7);
+insert into Album values(5,'Living things','11/09/2012',58,7);
+insert into Album values(6,'Alok 2018.1','11/06/2018',58,8);
+insert into Album values(7,'Bang','11/03/2015',58,3);
+insert into Album values(8,'As melhores do brown','11/03/2015',58,6);
+insert into Album values(9,'Chinese democracy','11/03/2011',58,5);
+insert into Album values(10,'The now now','11/03/2018',58,5);
 
 Create Table Midia (
 codMidia numeric not null,
@@ -242,6 +275,18 @@ insert into Midia values (2,'A namorada',5,true,2);
 insert into Midia values (3,'Historias de carnaval',53,false,6);
 insert into Midia values (4,'Podcast da doidera',60,false,6);
 insert into Midia values (5,'Boulevard of broken dreams',6,true,1);
+insert into Midia values (6,'Bang',5,true,3);
+insert into Midia values (7,'Show das poderosas',5,true,3);
+insert into Midia values (8,'So far away',5,true,1);
+insert into Midia values (9,'Dear god',5,true,1);
+insert into Midia values (10,'Hail to the king',5,true,1);
+insert into Midia values (11,'Good Riddance',5,true,2);
+insert into Midia values (12,'When I come around',3,true,2);
+insert into Midia values (13,'Sweet Child o mine',4,true,4);
+insert into Midia values (14,'Numb',5,true,4);
+insert into Midia values (15,'In the end',4,true,4);
+insert into Midia values (16,'Hear me now',6,true,4);
+insert into Midia values (17,'Feel good inc',5,true,4);
 
 Create Table Musica (
 codMidia numeric not null,
@@ -335,6 +380,6 @@ unique (codPlaylist,ordemFaixa)
 insert into PlaylistMusica values (1,2,1);   -- musica 1 na playlist 2 na ordem 1
 insert into PlaylistMusica values (2,2,2);   -- musica 2 na playlist 2 na ordem 2
 insert into PlaylistMusica values (2,2,3);   -- musica 2 na playlist 2 na ordem 3
-insert into PlaylistMusica values (5,2,3);   -- musica 5 na playlisst 2 na ordem 3
+-- insert into PlaylistMusica values (5,2,3);   -- musica 5 na playlisst 2 na ordem 3. eh pra dar erro mesmo
 
 
