@@ -26,4 +26,23 @@ public class DataBase {
 			System.out.println("Erro: " + e.getMessage());
 		}
 	}
+	
+	public boolean isConnected() {
+		if(this.connection != null)
+			return true;
+		else
+			return false;
+	}
+	
+	public void getSongs() {
+		try {
+			String query = "select nomeMidia from Midia;";
+			this.resultset = this.statement.executeQuery(query);
+			this.statement = this.connection.createStatement();
+			while(this.resultset.next())
+				System.out.println("nome da midia:" + this.resultset.getString("nomeMidia"));
+;		} catch (Exception e) {
+			System.out.println("Erro: " + e.getMessage());
+		}
+	}
 }
