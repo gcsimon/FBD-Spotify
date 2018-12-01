@@ -1,3 +1,4 @@
+drop table if exists PlaylistMusica;
 drop table if exists UsuarioMidia;
 drop table if exists MusicaArtista;
 drop table if exists AlbumMusica;
@@ -23,7 +24,7 @@ drop table if exists Categoria;
 CREATE TABLE Plano (
     titulopla varchar(255) NOT NULL,
     valor numeric NOT NULL,
-    compartilhavel int NOT NULL,
+    compartilhavel boolean NOT NULL,
     unique(titulopla),
     primary key(titulopla)
 );
@@ -302,8 +303,8 @@ insert into MusicaArtista values(1,2);
 insert into MusicaArtista values(2,6);
 insert into MusicaArtista values(5,2);
 
-select nomeMidia, tituloAlbum, nomeArtista,nomeCategoria,dataLancamento
-from AlbumMusica natural join Album natural join Artista natural join musica natural join MusicaArtista natural join midia natural join Categoria;
+-- select nomeMidia, tituloAlbum, nomeArtista,nomeCategoria,dataLancamento
+-- from AlbumMusica natural join Album natural join Artista natural join musica natural join MusicaArtista natural join midia natural join Categoria;
 
 create table UsuarioMidia (
 id numeric not null,
@@ -320,5 +321,20 @@ insert into UsuarioMidia values(3,1,1);
 insert into UsuarioMidia values(4,2,3);
 insert into UsuarioMidia values(5,2,4);
 insert into UsuarioMidia values(6,2,4);
+
+create table PlaylistMusica (
+codMidia numeric not null,
+codPlaylist numeric not null,
+ordemFaixa integer not null,
+foreign key(codMidia) references Musica(codMidia),
+foreign key(codPlaylist) references Playlist(codPlaylist),
+primary key(codMidia,codPlaylist,ordemFaixa),
+unique (codPlaylist,ordemFaixa)
+);
+
+insert into PlaylistMusica values (1,2,1);   -- musica 1 na playlist 2 na ordem 1
+insert into PlaylistMusica values (2,2,2);   -- musica 2 na playlist 2 na ordem 2
+insert into PlaylistMusica values (2,2,3);   -- musica 2 na playlist 2 na ordem 3
+insert into PlaylistMusica values (5,2,3);   -- musica 5 na playlisst 2 na ordem 3
 
 
