@@ -271,34 +271,56 @@ foreign key(codCategoria) references Categoria(codCategoria),
 primary key(codMidia)
 );
 insert into Midia values (1,'Wake me Up when September Ends',7,true,1);
-insert into Midia values (2,'A namorada',5,true,2);
+insert into Midia values (2,'A namorada',5,true,3);
 insert into Midia values (3,'Historias de carnaval',53,false,6);
 insert into Midia values (4,'Podcast da doidera',60,false,6);
 insert into Midia values (5,'Boulevard of broken dreams',6,true,1);
-insert into Midia values (6,'Bang',5,true,3);
-insert into Midia values (7,'Show das poderosas',5,true,3);
+insert into Midia values (6,'Bang',5,true,5);
+insert into Midia values (7,'Show das poderosas',5,true,5);
 insert into Midia values (8,'So far away',5,true,1);
 insert into Midia values (9,'Dear god',5,true,1);
 insert into Midia values (10,'Hail to the king',5,true,1);
-insert into Midia values (11,'Good Riddance',5,true,2);
-insert into Midia values (12,'When I come around',3,true,2);
-insert into Midia values (13,'Sweet Child o mine',4,true,4);
-insert into Midia values (14,'Numb',5,true,4);
-insert into Midia values (15,'In the end',4,true,4);
-insert into Midia values (16,'Hear me now',6,true,4);
-insert into Midia values (17,'Feel good inc',5,true,4);
+insert into Midia values (11,'Good Riddance',5,true,1);
+insert into Midia values (12,'When I come around',3,true,1);
+insert into Midia values (13,'Sweet Child o mine',4,true,1);
+insert into Midia values (14,'Numb',5,true,1);
+insert into Midia values (15,'In the end',4,true,1);
+insert into Midia values (16,'Hear me now',6,true,5);
+insert into Midia values (17,'Feel good inc',5,true,2);
+insert into Midia values (18,'SUS e a saude publica',61,false,6);
+insert into Midia values (19,'Historias do final de semana',54,false,6);
+insert into Midia values (20,'Arquivo X',61,false,6);
+insert into Midia values (21,'Realidade concentrada',63,false,6);
+insert into Midia values (22,'Retrospectiva 2016',58,false,6);
+insert into Midia values (23,'Perdidos e sem respostas',61,false,6);
+insert into Midia values (24,'Uma camera na mao',65,false,6);
+insert into Midia values (25,'Passado e futuro',59,false,6);
+insert into Midia values (26,'Jogos de tabuleiro',59,false,6);
 
 Create Table Musica (
 codMidia numeric not null,
+codArtista numeric not null,
 totalReproducoes numeric not null,
 nomeCompositor varchar (255),
+foreign key(codArtista) references artista(codArtista),
 foreign key(codMidia) references Midia(codMidia),
 primary key(codMidia)
 );
-insert into Musica values (1,94000,'Green Day');
-insert into Musica values (2,15000,'Michel Telo');
-insert into Musica values (5,18000,'Green Day');
-
+insert into Musica values (1,2,94000,'Green Day');
+insert into Musica values (2,6,15000,'Michel Telo');
+insert into Musica values (5,1,18000,'Green Day');
+insert into Musica values (6,3,21000,'Anitta');
+insert into Musica values (7,3,38000,'Anitta');
+insert into Musica values (8,1,15000,'Avenged Sevenfold');
+insert into Musica values (9,1,1000,'Avenged Sevenfold');
+insert into Musica values (10,1,11000,'Avenged Sevenfold');
+insert into Musica values (11,2,90000,'Green Day');
+insert into Musica values (12,2,12000,'Green Day');
+insert into Musica values (13,5,32000,'Gund and Roses');
+insert into Musica values (14,7,42000,'Chester');
+insert into Musica values (15,7,21000,'Chester');
+insert into Musica values (16,8,35000,'Alok');
+insert into Musica values (17,10,31000,'Gorillaz');
 
 create table Podcast (
 codPodcast numeric not null,
@@ -324,32 +346,16 @@ insert into Episodio values (3,'contando historias de carnaval', '25/04/2007',1)
 insert into Episodio values (4,'contando historias muito estranhas','28/09/2018',2);
 
 create table AlbumMusica (
-codAlbum numeric not null,   -- pode ter musica que nao esta em nenhum album, mas nao pode ter album sem musica
+codAlbum numeric not null, 
 codMidia numeric not null,
 foreign key (codmidia) references Musica(codMidia),
 foreign key (codAlbum) references Album(codAlbum),
 primary key(codAlbum,codMidia)
 );
 
-insert into AlbumMusica values (1,1); -- american idiot
-insert into AlbumMusica values (2,2); -- brown
+insert into AlbumMusica values (1,1);
+insert into AlbumMusica values (2,2); 
 insert into AlbumMusica values (1,5);
-
-create table MusicaArtista (
-
-codMidia numeric not null,
-codArtista numeric not null,
-primary key (codMidia,codArtista),
-foreign key(codMidia) references Musica(codMidia),
-foreign key(codArtista) references Artista(codArtista)
-);
-
-insert into MusicaArtista values(1,2);
-insert into MusicaArtista values(2,6);
-insert into MusicaArtista values(5,2);
-
--- select nomeMidia, tituloAlbum, nomeArtista,nomeCategoria,dataLancamento
--- from AlbumMusica natural join Album natural join Artista natural join musica natural join MusicaArtista natural join midia natural join Categoria;
 
 create table UsuarioMidia (
 id numeric not null,
