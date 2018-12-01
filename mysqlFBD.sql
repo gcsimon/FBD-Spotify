@@ -348,14 +348,28 @@ insert into Episodio values (4,'contando historias muito estranhas','28/09/2018'
 create table AlbumMusica (
 codAlbum numeric not null, 
 codMidia numeric not null,
+ordemFaixa integer not null,
 foreign key (codmidia) references Musica(codMidia),
 foreign key (codAlbum) references Album(codAlbum),
-primary key(codAlbum,codMidia)
+primary key(codAlbum,codMidia,ordemFaixa),
+unique (codAlbum,ordemFaixa)
 );
 
-insert into AlbumMusica values (1,1);
-insert into AlbumMusica values (2,2); 
-insert into AlbumMusica values (1,5);
+insert into AlbumMusica values (1,1,1);
+insert into AlbumMusica values (1,11,2);
+insert into AlbumMusica values (1,12,3);
+insert into AlbumMusica values (2,2,1); 
+insert into AlbumMusica values (3,5,1);
+insert into AlbumMusica values (3,10,2);
+insert into AlbumMusica values (4,15,1);
+insert into AlbumMusica values (4,14,2);
+insert into AlbumMusica values (5,15,1);
+insert into AlbumMusica values (6,16,1);
+insert into AlbumMusica values (7,6,1);
+insert into AlbumMusica values (7,7,2);
+insert into AlbumMusica values (8,2,1);
+insert into AlbumMusica values (9,13,1);
+insert into AlbumMusica values (10,17,1);
 
 create table UsuarioMidia (
 id numeric not null,
@@ -368,24 +382,44 @@ foreign key(codMidia) references Midia(codMidia)
 
 insert into UsuarioMidia values(1,1,1);
 insert into UsuarioMidia values(2,1,2);
-insert into UsuarioMidia values(3,1,1);
-insert into UsuarioMidia values(4,2,3);
-insert into UsuarioMidia values(5,2,4);
-insert into UsuarioMidia values(6,2,4);
+insert into UsuarioMidia values(3,1,3);
+insert into UsuarioMidia values(4,2,5);
+insert into UsuarioMidia values(5,2,6);
+insert into UsuarioMidia values(6,2,7);
+insert into UsuarioMidia values(7,2,8);
+insert into UsuarioMidia values(8,4,9);
+insert into UsuarioMidia values(9,5,10);
+insert into UsuarioMidia values(10,6,4);
+insert into UsuarioMidia values(11,7,11);
+insert into UsuarioMidia values(12,2,12);
+insert into UsuarioMidia values(13,2,13);
+insert into UsuarioMidia values(14,2,14);
+insert into UsuarioMidia values(15,2,15);
 
 create table PlaylistMusica (
-codMidia numeric not null,
 codPlaylist numeric not null,
-ordemFaixa integer not null,
+codMidia numeric not null,
 foreign key(codMidia) references Musica(codMidia),
 foreign key(codPlaylist) references Playlist(codPlaylist),
-primary key(codMidia,codPlaylist,ordemFaixa),
-unique (codPlaylist,ordemFaixa)
+primary key(codMidia,codPlaylist)
 );
 
-insert into PlaylistMusica values (1,2,1);   -- musica 1 na playlist 2 na ordem 1
-insert into PlaylistMusica values (2,2,2);   -- musica 2 na playlist 2 na ordem 2
-insert into PlaylistMusica values (2,2,3);   -- musica 2 na playlist 2 na ordem 3
--- insert into PlaylistMusica values (5,2,3);   -- musica 5 na playlisst 2 na ordem 3. eh pra dar erro mesmo
+insert into PlaylistMusica values (1,2);  
+insert into PlaylistMusica values (1,5);  
+insert into PlaylistMusica values (1,6);  
+insert into PlaylistMusica values (1,7);   
+insert into PlaylistMusica values (2,8);  
+insert into PlaylistMusica values (2,9);  
+insert into PlaylistMusica values (2,10);  
+insert into PlaylistMusica values (3,11);   
+insert into PlaylistMusica values (3,12);   
+insert into PlaylistMusica values (4,6); 
+insert into PlaylistMusica values (4,7); 
+insert into PlaylistMusica values (5,2); 
+insert into PlaylistMusica values (9,5); 
+insert into PlaylistMusica values (6,6); 
+insert into PlaylistMusica values (7,7); 
+insert into PlaylistMusica values (8,8); 
+insert into PlaylistMusica values (10,10); 
 
 
