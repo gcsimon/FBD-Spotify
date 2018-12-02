@@ -251,7 +251,7 @@ primary key(codAlbum),
 foreign key(codArtista) references Artista(codArtista)
 );
 
-insert into Album values(1,'American Idiot','20/09/2004',0,2);
+insert into Album values(1,'American Idiot','20/09/2004',25,2);
 insert into Album Values(2,'CD do brown','28/11/2018',0,6);
 insert into Album values(3,'Nightmare','11/09/2012',0,1);
 insert into Album values(4,'One more light','11/09/2017',0,7);
@@ -446,8 +446,29 @@ select nomeu, nomePlaylist
 from Usuario natural join UsuarioPlaylist natural join Playlist 
 where codPlaylist not in (select codPlaylist from PlaylistMusica);
 
-
-
-
+-- musica mais acessada de cada categoria
+select nomeMidia, nomeCategoria
+from Midia m1 natural join Categoria natural join UsuarioMidia
+where ehmusica = true
+group by codCategoria
+having 1 <= (select max count(codMidia)
+			from UsuarioMidia
+            where UsuarioMidia.codMidia = m1.codMidia
+            );
+          
+--  O nome dos Artistas, o nome da apresentacao e a data da apresentacao e o lugar 
+-- para apresentacoes em lugares que Linkin Park nao fez show
+Select distinct nomeArtista,nomeApresentacao, dataApresentacao, nomeLugar
+From Apresentacao natural join artistaApresentacao natural join Artista natural join Lugar
+Where nomeArtista <> 'Linkin Park' and
+           codLugar NOT IN (select distinct codLugar
+				From Apresentacao natural join ArtistaApresentacao natural join Artista
+				Where nomeArtista = 'Linkin Park');
+                
+                
+-- nome de todos os artistas que possuem album, com todas as musicas do album em ordem de faixa(crescente)         
+select nomeArtista,tituloAlbum, nomeMidia, ordemFaixa
+from musica natural join midia natural join Album natural join albumMusica natural join Artista
+order by tituloAlbum,ordemFaixa;
 
 
