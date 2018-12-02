@@ -463,7 +463,11 @@ group by nomeMidia
 order by (count(codUsuario)) DESC;
 
 
--- 3
+-- 3 nome de shows,lugar do show e data de apresentacao para shows no brasil
+
+select distinct NomeApresentacao, cidadeLugar, dataApresentacao
+from artista natural join apresentacao natural join lugar
+where lugar.paisLugar = 'Brasil';
           
 -- 4  O nome dos artistas que fizeram nehum show que linkin park fez(nenhum festival onde o linkin park se apresentou)
 select distinct nomeArtista
