@@ -301,27 +301,26 @@ insert into Midia values (26,'Jogos de tabuleiro',59,false,6);
 Create Table Musica (
 codMidia numeric not null,
 codArtista numeric not null,
-totalReproducoes numeric not null,
 nomeCompositor varchar (255),
 foreign key(codArtista) references artista(codArtista),
 foreign key(codMidia) references Midia(codMidia),
 primary key(codMidia)
 );
-insert into Musica values (1,2,94000,'Green Day');
-insert into Musica values (2,6,15000,'Michel Telo');
-insert into Musica values (5,1,18000,'Green Day');
-insert into Musica values (6,3,21000,'Anitta');
-insert into Musica values (7,3,38000,'Anitta');
-insert into Musica values (8,1,15000,'Avenged Sevenfold');
-insert into Musica values (9,1,1000,'Avenged Sevenfold');
-insert into Musica values (10,1,11000,'Avenged Sevenfold');
-insert into Musica values (11,2,90000,'Green Day');
-insert into Musica values (12,2,12000,'Green Day');
-insert into Musica values (13,5,32000,'Gund and Roses');
-insert into Musica values (14,7,42000,'Chester');
-insert into Musica values (15,7,21000,'Chester');
-insert into Musica values (16,8,35000,'Alok');
-insert into Musica values (17,10,31000,'Gorillaz');
+insert into Musica values (1,2,'Green Day');
+insert into Musica values (2,6,'Michel Telo');
+insert into Musica values (5,1,'Green Day');
+insert into Musica values (6,3,'Anitta');
+insert into Musica values (7,3,'Anitta');
+insert into Musica values (8,1,'Avenged Sevenfold');
+insert into Musica values (9,1,'Avenged Sevenfold');
+insert into Musica values (10,1,'Avenged Sevenfold');
+insert into Musica values (11,2,'Green Day');
+insert into Musica values (12,2,'Green Day');
+insert into Musica values (13,5,'Gund and Roses');
+insert into Musica values (14,7,'Chester');
+insert into Musica values (15,7,'Chester');
+insert into Musica values (16,8,'Alok');
+insert into Musica values (17,10,'Gorillaz');
 
 create table Podcast (
 codPodcast numeric not null,
@@ -420,14 +419,11 @@ insert into PlaylistMusica values (9,5);
 insert into PlaylistMusica values (6,6); 
 insert into PlaylistMusica values (7,7); 
 insert into PlaylistMusica values (8,8); 
-insert into PlaylistMusica values (10,10); 
 
 
--- duração em minutos de cada playlist
-select nomePlaylist, sum(duracaoMinutosMidia)
+-- duração em minutos de cada playlist e a quantidade de musicas na playlist
+select nomePlaylist,count(*) as numeroDeMusicas, sum(duracaoMinutosMidia)
 from playlist natural join playListMusica natural join midia
-group by nomePlaylist
-
---
+group by nomePlaylist;
 
 
