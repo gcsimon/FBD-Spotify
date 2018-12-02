@@ -201,6 +201,8 @@ insert into ArtistaApresentacao values(7,10);
 insert into ArtistaApresentacao values(8,3);
 insert into ArtistaApresentacao values(9,2);
 insert into ArtistaApresentacao values(10,2);
+insert into ArtistaApresentacao values(7,2);
+insert into ArtistaApresentacao values(7,1);
 
 CREATE TABLE Oferta (
 codOferta numeric not null,
@@ -408,6 +410,18 @@ insert into UsuarioMidia values(12,2,12);
 insert into UsuarioMidia values(13,2,13);
 insert into UsuarioMidia values(14,2,14);
 insert into UsuarioMidia values(15,2,15);
+insert into UsuarioMidia values(16,1,1);
+insert into UsuarioMidia values(17,1,2);
+insert into UsuarioMidia values(18,5,1);
+insert into UsuarioMidia values(19,1,3);
+insert into UsuarioMidia values(20,2,1);
+insert into UsuarioMidia values(21,3,5);
+insert into UsuarioMidia values(22,3,1);
+insert into UsuarioMidia values(23,4,5);
+insert into UsuarioMidia values(24,3,7);
+insert into UsuarioMidia values(25,6,11);
+insert into UsuarioMidia values(26,3,12);
+
 
 create table PlaylistMusica (
 codPlaylist numeric not null,
@@ -436,35 +450,31 @@ insert into PlaylistMusica values (8,8);
 
 
 -- 1 duração em minutos de cada playlist e a quantidade de musicas na playlist
-select nomePlaylist,count(*) as numeroDeMusicas, sum(duracaoMinutosMidia)
+select nomePlaylist,count(*) as numeroDeMusicas, sum(duracaoMinutosMidia) as duracaoEmMinutosDaPlaylist
 from playlist natural join playListMusica natural join midia
 group by nomePlaylist;
 
 
--- 2  O nome do usuario e o nome da playlist para cada playlist que nao possui alguma musica associada.
-select nomeu, nomePlaylist 
-from Usuario natural join UsuarioPlaylist natural join Playlist 
-where codPlaylist not in (select codPlaylist from PlaylistMusica);
+-- 2  As musicas mais tocadas do Spotify
+select nomeArtista, nomeMidia, count(codUsuario) as NumeroDeVezesTocada
+from Musica Natural join Midia natural join UsuarioMidia natural join artista
+where ehMusica = true
+group by nomeMidia
+order by (count(codUsuario)) DESC;
 
--- 3 musica mais acessada de cada categoria
-select nomeMidia, nomeCategoria
-from Midia m1 natural join Categoria natural join UsuarioMidia
-where ehmusica = true
-group by codCategoria
-having 1 <= (select max count(codMidia)
-			from UsuarioMidia
-            where UsuarioMidia.codMidia = m1.codMidia
-            );
+
+-- 3
           
--- 4  O nome dos Artistas, o nome da apresentacao e a data da apresentacao e o lugar 
--- para apresentacoes em lugares que Linkin Park nao fez show
-Select distinct nomeArtista,nomeApresentacao, dataApresentacao, nomeLugar
-From Apresentacao natural join artistaApresentacao natural join Artista natural join Lugar
-Where nomeArtista <> 'Linkin Park' and
-           codLugar NOT IN (select distinct codLugar
-				From Apresentacao natural join ArtistaApresentacao natural join Artista
-				Where nomeArtista = 'Linkin Park');
-                
+-- 4  O nome dos artistas que fizeram nehum show que linkin park fez(nenhum festival onde o linkin park se apresentou)
+select distinct nomeArtista
+from Artista a1
+Where NOT EXISTS (select * 
+	From Artista natural join ArtistaApresentacao
+	Where codArtista = a1.codArtista and
+ 	codApresentacao IN (select distinct codApresentacao
+	From apresentacao natural join ArtistaApresentacao natural join Artista
+	Where nomeArtista = 'Linkin Park'));
+
                 
 -- 5 nome de todos os artistas que possuem album, com todas as musicas do album em ordem de faixa(crescente)         
 select nomeArtista,tituloAlbum, nomeMidia, ordemFaixa
