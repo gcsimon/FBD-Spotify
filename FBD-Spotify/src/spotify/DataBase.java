@@ -41,10 +41,29 @@ public class DataBase {
 			this.statement = this.connection.createStatement();
 			while(this.resultset.next())
 				System.out.println("nome da midia: " + this.resultset.getString("nomeMidia"));
+			System.out.println("\n\n");
 ;		} catch (Exception e) {
 			System.out.println("Erro: " + e.getMessage());
 		}
 	}
+	
+	public void playlistInfo() {
+		try {
+			String query = "select nomePlaylist,count(*) as numeroDeMusicas, sum(duracaoMinutosMidia)from playlist natural join playListMusica natural join midia group by nomePlaylist;";
+			this.resultset = this.statement.executeQuery(query);
+			this.statement = this.connection.createStatement();
+			while(this.resultset.next())
+				System.out.println("Nome da playlist: " + this.resultset.getString("nomePlaylist") + 
+									"\nNumero de musicas: " + this.resultset.getString("numeroDeMusicas") + 
+									"\nDuracao da playlist: " + this.resultset.getString("sum(duracaoMinutosMidia)") + '\n');
+			System.out.println();
+			System.out.println();
+;		} catch (Exception e) {
+			System.out.println("Erro: " + e.getMessage());
+		}
+	}
+	
+	
 	
 	
 }

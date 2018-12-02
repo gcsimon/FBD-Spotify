@@ -10,6 +10,7 @@ public class Spotify {
 		db.connect();
 		if(db.isConnected()) {
 			db.getSongs();
+			db.playlistInfo();
 		}
 		else {
 			System.out.println("Não foi pessivel realizar a conexão ao BD. ");

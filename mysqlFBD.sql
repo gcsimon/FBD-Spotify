@@ -426,4 +426,14 @@ select nomePlaylist,count(*) as numeroDeMusicas, sum(duracaoMinutosMidia)
 from playlist natural join playListMusica natural join midia
 group by nomePlaylist;
 
+-- cada musica agrupada por playlist
+select nomeCategoria, count(*) as NumeroDeMusicasNaCategoria
+from Midia natural join Categoria
+where Midia.ehMusica = True
+group by Midia.codCategoria
+
+
+
+
+
 
