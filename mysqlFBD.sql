@@ -435,18 +435,18 @@ insert into PlaylistMusica values (7,7);
 insert into PlaylistMusica values (8,8); 
 
 
--- duração em minutos de cada playlist e a quantidade de musicas na playlist
+-- 1 duração em minutos de cada playlist e a quantidade de musicas na playlist
 select nomePlaylist,count(*) as numeroDeMusicas, sum(duracaoMinutosMidia)
 from playlist natural join playListMusica natural join midia
 group by nomePlaylist;
 
 
--- O nome do usuario e o nome da playlist para cada playlist que nao possui alguma musica associada.
+-- 2  O nome do usuario e o nome da playlist para cada playlist que nao possui alguma musica associada.
 select nomeu, nomePlaylist 
 from Usuario natural join UsuarioPlaylist natural join Playlist 
 where codPlaylist not in (select codPlaylist from PlaylistMusica);
 
--- musica mais acessada de cada categoria
+-- 3 musica mais acessada de cada categoria
 select nomeMidia, nomeCategoria
 from Midia m1 natural join Categoria natural join UsuarioMidia
 where ehmusica = true
@@ -456,7 +456,7 @@ having 1 <= (select max count(codMidia)
             where UsuarioMidia.codMidia = m1.codMidia
             );
           
---  O nome dos Artistas, o nome da apresentacao e a data da apresentacao e o lugar 
+-- 4  O nome dos Artistas, o nome da apresentacao e a data da apresentacao e o lugar 
 -- para apresentacoes em lugares que Linkin Park nao fez show
 Select distinct nomeArtista,nomeApresentacao, dataApresentacao, nomeLugar
 From Apresentacao natural join artistaApresentacao natural join Artista natural join Lugar
@@ -466,7 +466,7 @@ Where nomeArtista <> 'Linkin Park' and
 				Where nomeArtista = 'Linkin Park');
                 
                 
--- nome de todos os artistas que possuem album, com todas as musicas do album em ordem de faixa(crescente)         
+-- 5 nome de todos os artistas que possuem album, com todas as musicas do album em ordem de faixa(crescente)         
 select nomeArtista,tituloAlbum, nomeMidia, ordemFaixa
 from musica natural join midia natural join Album natural join albumMusica natural join Artista
 order by tituloAlbum,ordemFaixa;
