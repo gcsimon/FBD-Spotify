@@ -273,8 +273,8 @@ primary key(codMidia)
 );
 insert into Midia values (1,'Wake me Up when September Ends',7,true,1);
 insert into Midia values (2,'A namorada',5,true,3);
-insert into Midia values (3,'Historias de carnaval',53,false,6);
-insert into Midia values (4,'Podcast da doidera',60,false,6);
+insert into Midia values (3,'Historias de outros carnavais',53,false,6);
+insert into Midia values (4,'Pretinho 30/11/2018 13h',60,false,6);
 insert into Midia values (5,'Boulevard of broken dreams',6,true,1);
 insert into Midia values (6,'Bang',5,true,5);
 insert into Midia values (7,'Show das poderosas',5,true,5);
@@ -288,15 +288,14 @@ insert into Midia values (14,'Numb',5,true,1);
 insert into Midia values (15,'In the end',4,true,1);
 insert into Midia values (16,'Hear me now',6,true,5);
 insert into Midia values (17,'Feel good inc',5,true,2);
-insert into Midia values (18,'SUS e a saude publica',61,false,6);
-insert into Midia values (19,'Historias do final de semana',54,false,6);
-insert into Midia values (20,'Arquivo X',61,false,6);
-insert into Midia values (21,'Realidade concentrada',63,false,6);
-insert into Midia values (22,'Retrospectiva 2016',58,false,6);
-insert into Midia values (23,'Perdidos e sem respostas',61,false,6);
-insert into Midia values (24,'Uma camera na mao',65,false,6);
-insert into Midia values (25,'Passado e futuro',59,false,6);
-insert into Midia values (26,'Jogos de tabuleiro',59,false,6);
+insert into Midia values (18,'Siga bem caminhoneiro',61,false,6);
+insert into Midia values (19,'Poucas com Lucas Inutilismo',54,false,6);
+insert into Midia values (20,'Negocio Arriscado',61,false,10);
+insert into Midia values (21,'Especial: Tecnologia',63,false,8);
+insert into Midia values (22,'A eleicao no horario nobre',58,false,8);
+insert into Midia values (23,'Fernando Henrique Cardoso',61,false,8);
+insert into Midia values (24,'Overwatch, bruxos e aliens',65,false,9);
+insert into Midia values (25,'Eleicoes na Italia',59,false,8);
 
 Create Table Musica (
 codMidia numeric not null,
@@ -329,9 +328,16 @@ descricaoPodcast varchar(255) not null,
 publicante varchar(255) not null,
 primary key(codPodcast)
 );
-insert into Podcast values(1,'Nerdcast','Podcast engracadao','Young Nerd');
-insert into Podcast values(2,'Matando robos gigantes','Podcast bem engracado','MRG');
-
+insert into Podcast values(1,'Nerdcast','Podcast semanal sobre assuntos nerds','Jovem Nerd');
+insert into Podcast values(2,'Matando robos gigantes','Podcast com episodios sobre Cinema, Games, HQs e cultura geek','Matando Robos Gigantes');
+insert into Podcast values(3,'Pretinho Basico','Podcast diario que ocorre no horario do almoco','Pretinho Basico');
+insert into Podcast values(4,'Nao Ouvo','O podcast do Nao Salvo','Nao Salvo');
+insert into Podcast values(5,'Estadao noticias','Podcast sobre noticias no Brasil e no mundo',' Estadao');
+insert into Podcast values(6,'Presidente da Semana','A historia de todos os presidentes brasileiros','Folha de S. Paulo');
+insert into Podcast values(7,'Poucas','Poucas, por Caue Moura','Caue Moura');
+insert into Podcast values(8,'Gugacast','Podcast por Guga Mafra','Guga Mafra');
+insert into Podcast values(9,'Foro de Teresina','Podcast semanal da revista Piaui','Revista Piaui');
+insert into Podcast values(10,'Xadrez Verbal','Podcast informativo, que trata de politica internacional','Central3 Podcasts');
 
 create table Episodio (
 codMidia numeric not null,
@@ -342,9 +348,17 @@ foreign key (codPodcast) references Podcast(codPodcast),
 foreign key(codMidia) references Midia(codMidia),
 primary key(codMidia)
 );
-insert into Episodio values (3,'contando historias de carnaval', '25/04/2007',1);
-insert into Episodio values (4,'contando historias muito estranhas','28/09/2018',2);
 
+insert into Episodio values (3,'Contando historias de carnaval', '25/04/2007',1);
+insert into Episodio values (4,'Pretinho 30/11/2018 13h by Pretinho Basico','30/11/2018',3);
+insert into Episodio values (18,'Episodio #141','31/05/2018',4);
+insert into Episodio values (19,'Um papo sobre os limites do humor','22/11/2018',7);
+insert into Episodio values (20,'Historias sobre empreendedorismo','19/09/2018',8);
+insert into Episodio values (21,'Episodio especial sobre tecnologia','06/10/2018',5);
+insert into Episodio values (22,'Episodio falando sobre o inicio da propaganda eleitoral de 2018','30/08/2018',9);
+insert into Episodio values (23,'Episodio sobre o ex-presidente brasileiro Fernando Henrique Cardoso','01/10/2018',6);
+insert into Episodio values (24,'Falando sobre o jogo Overwatch','29/06/2018',2);
+insert into Episodio values (25,'Episodio sobre as eleicoes na Italia','09/03/2018',10);
 create table AlbumMusica (
 codAlbum numeric not null, 
 codMidia numeric not null,
@@ -426,11 +440,11 @@ select nomePlaylist,count(*) as numeroDeMusicas, sum(duracaoMinutosMidia)
 from playlist natural join playListMusica natural join midia
 group by nomePlaylist;
 
--- cada musica agrupada por playlist
-select nomeCategoria, count(*) as NumeroDeMusicasNaCategoria
-from Midia natural join Categoria
-where Midia.ehMusica = True
-group by Midia.codCategoria
+
+-- O nome do usuario e o nome da playlist para cada playlist que nao possui alguma musica associada.
+select nomeu, nomePlaylist 
+from Usuario natural join UsuarioPlaylist natural join Playlist 
+where codPlaylist not in (select codPlaylist from PlaylistMusica);
 
 
 
