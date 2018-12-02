@@ -1,3 +1,5 @@
+drop procedure if exists AumentaMinutos;
+drop trigger if exists inseriuNoAlbum;
 drop table if exists PlaylistMusica;
 drop table if exists UsuarioMidia;
 drop table if exists MusicaArtista;
@@ -84,19 +86,18 @@ nomePlaylist varchar(255) NOT NULL,
 descricaoPlaylist varchar(255) NOT NULL,
 statusPlaylist varchar(255) NOT NULL,
 dataCriacao varchar(255) NOT NULL,
-duracaoTotalMinutos numeric NOT NULL,
 primary key(codPlaylist)
 );
-insert into Playlist values (1,'Favoritos', 'Minhas musicas favoritas', 'Public', '28/11/2018' , 0);
-insert into Playlist values (2,'Top 50 Brasil', 'Mais tocadas do brasil da semana', 'Public', '28/01/2018' , 0);
-insert into Playlist values (3,'Rock', 'Musicas de Rock and Roll', 'Public', '15/11/2018' , 0);
-insert into Playlist values (4,'Pop', 'Musicas pop', 'Public', '05/11/2018' , 0);
-insert into Playlist values (5,'Musicas Aleatorias', 'Musicas de todos os tipos', 'Private', '09/11/2018' , 0);
-insert into Playlist values (6,'Musicas para Alegrar seu dia', 'Musicas felizes', 'Public', '09/11/2016' , 0);
-insert into Playlist values (7,'Musicas do Giovani', 'Musicas felizes', 'Public', '09/11/2016' , 0);
-insert into Playlist values (8,'Pasteis de Belem', 'Playlist musical', 'Public', '19/01/2016' , 0);
-insert into Playlist values (9,'Musicas para ouvir no carro', 'musicas para dirigir', 'Public', '09/11/2016' , 0);
-insert into Playlist values (10,'Old Songs', 'Só as velhinhas', 'Public', '09/10/2016' , 0);
+insert into Playlist values (1,'Favoritos', 'Minhas musicas favoritas', 'Public', '28/11/2018');
+insert into Playlist values (2,'Top 50 Brasil', 'Mais tocadas do brasil da semana', 'Public', '28/01/2018');
+insert into Playlist values (3,'Rock', 'Musicas de Rock and Roll', 'Public', '15/11/2018');
+insert into Playlist values (4,'Pop', 'Musicas pop', 'Public', '05/11/2018');
+insert into Playlist values (5,'Musicas Aleatorias', 'Musicas de todos os tipos', 'Private', '09/11/2018');
+insert into Playlist values (6,'Musicas para Alegrar seu dia', 'Musicas felizes', 'Public', '09/11/2016');
+insert into Playlist values (7,'Musicas do Giovani', 'Musicas felizes', 'Public', '09/11/2016');
+insert into Playlist values (8,'Pasteis de Belem', 'Playlist musical', 'Public', '19/01/2016');
+insert into Playlist values (9,'Musicas para ouvir no carro', 'musicas para dirigir', 'Public', '09/11/2016');
+insert into Playlist values (10,'Old Songs', 'Só as velhinhas', 'Public', '09/10/2016');
 
 CREATE TABLE UsuarioPlaylist (
 codUsuario numeric NOT NULL,
@@ -250,16 +251,16 @@ primary key(codAlbum),
 foreign key(codArtista) references Artista(codArtista)
 );
 
-insert into Album values(1,'American Idiot','20/09/2004',57,2);
-insert into Album Values(2,'CD do brown','28/11/2018',25,6);
-insert into Album values(3,'Nightmare','11/09/2012',59,1);
-insert into Album values(4,'One more light','11/09/2017',68,7);
-insert into Album values(5,'Living things','11/09/2012',58,7);
-insert into Album values(6,'Alok 2018.1','11/06/2018',58,8);
-insert into Album values(7,'Bang','11/03/2015',58,3);
-insert into Album values(8,'As melhores do brown','11/03/2015',58,6);
-insert into Album values(9,'Chinese democracy','11/03/2011',58,5);
-insert into Album values(10,'The now now','11/03/2018',58,5);
+insert into Album values(1,'American Idiot','20/09/2004',0,2);
+insert into Album Values(2,'CD do brown','28/11/2018',0,6);
+insert into Album values(3,'Nightmare','11/09/2012',0,1);
+insert into Album values(4,'One more light','11/09/2017',0,7);
+insert into Album values(5,'Living things','11/09/2012',0,7);
+insert into Album values(6,'Alok 2018.1','11/06/2018',0,8);
+insert into Album values(7,'Bang','11/03/2015',0,3);
+insert into Album values(8,'As melhores do brown','11/03/2015',0,6);
+insert into Album values(9,'Chinese democracy','11/03/2011',0,5);
+insert into Album values(10,'The now now','11/03/2018',0,5);
 
 Create Table Midia (
 codMidia numeric not null,
@@ -354,7 +355,6 @@ foreign key (codAlbum) references Album(codAlbum),
 primary key(codAlbum,codMidia,ordemFaixa),
 unique (codAlbum,ordemFaixa)
 );
-
 insert into AlbumMusica values (1,1,1);
 insert into AlbumMusica values (1,11,2);
 insert into AlbumMusica values (1,12,3);
@@ -421,5 +421,13 @@ insert into PlaylistMusica values (6,6);
 insert into PlaylistMusica values (7,7); 
 insert into PlaylistMusica values (8,8); 
 insert into PlaylistMusica values (10,10); 
+
+
+-- duração em minutos de cada playlist
+select nomePlaylist, sum(duracaoMinutosMidia)
+from playlist natural join playListMusica natural join midia
+group by nomePlaylist
+
+--
 
 

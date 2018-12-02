@@ -40,9 +40,11 @@ public class DataBase {
 			this.resultset = this.statement.executeQuery(query);
 			this.statement = this.connection.createStatement();
 			while(this.resultset.next())
-				System.out.println("nome da midia:" + this.resultset.getString("nomeMidia"));
+				System.out.println("nome da midia: " + this.resultset.getString("nomeMidia"));
 ;		} catch (Exception e) {
 			System.out.println("Erro: " + e.getMessage());
 		}
 	}
+	
+	
 }

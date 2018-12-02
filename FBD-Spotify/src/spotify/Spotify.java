@@ -6,7 +6,13 @@ public class Spotify {
 	//db.connect();
 	
 	public static void main(String[] args) {
+		
 		db.connect();
-		db.getSongs();
+		if(db.isConnected()) {
+			db.getSongs();
+		}
+		else {
+			System.out.println("Não foi pessivel realizar a conexão ao BD. ");
+		}		
 	}
 }
