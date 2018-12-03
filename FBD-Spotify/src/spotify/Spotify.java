@@ -38,7 +38,7 @@ public class Spotify {
 				else if (x==6)
 					db.albumsInfo();
 				else if (x==7)
-					System.out.println("not yet implemented");				
+					db.codUsersdontPodcast();				
 			}
 			else {
 				System.out.println("Não foi pessivel realizar a conexão ao BD. ");

@@ -145,10 +145,25 @@ public class DataBase {
 			System.out.println("Erro: " + e.getMessage());
 		}
 	}
-	
-	
-	
-
+		
+		public void codUsersdontPodcast() {
+			try {
+				String query = "select distinct codUsuario\r\n" + 
+						"from usuario\r\n" + 
+						"where codUsuario not in ( select codUsuario\r\n" + 
+						"							from UsuarioMidia natural join Podcast natural join Midia\r\n" + 
+						"							where ehMusica = false);";
+				this.resultset = this.statement.executeQuery(query);
+				this.statement = this.connection.createStatement();
+				while(this.resultset.next())
+					System.out.println("Codigo do usuario: " + this.resultset.getString("CodUsuario"));
+				System.out.println();
+				System.out.println();
+			} catch (Exception e) {
+				System.out.println("Erro: " + e.getMessage());
+			}
+		
+	}
 	
 	
 }

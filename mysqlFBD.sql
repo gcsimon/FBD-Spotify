@@ -485,4 +485,9 @@ select nomeArtista,tituloAlbum, nomeMidia, ordemFaixa
 from musica natural join midia natural join Album natural join albumMusica natural join Artista
 order by tituloAlbum,ordemFaixa;
 
+-- dados dos usuarios que tem plano pago
+select *
+from Usuario natural join Plano
+where tituloPla != 'free'
+
 
